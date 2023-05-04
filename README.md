@@ -1,7 +1,7 @@
-# news_app
+# News App
 
 A new Flutter project.
 
-Hi, this is Jihan! This repository was made for my Mobile Programming class project
-
-
+Jihan Ghaniyyah Putri Arrochim <br>
+3122640035 <br>
+1 D4 LJ Teknik Informatika B <br>
