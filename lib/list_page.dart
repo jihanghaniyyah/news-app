@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/detail_page.dart';
 import 'package:news_app/article.dart';
 
 class NewsListPage extends StatelessWidget {
@@ -36,6 +37,9 @@ class NewsListPage extends StatelessWidget {
       ),
       title: Text(article.title),
       subtitle: Text(article.author),
+      onTap: () {
+        Navigator.pushNamed(context, ArticleDetailPage.routeName, arguments: article);
+      },
     );
   }
 }
