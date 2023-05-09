@@ -1,4 +1,5 @@
 import 'package:news_app/article.dart';
+import 'package:news_app/article_webview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +46,10 @@ class ArticleDetailPage extends StatelessWidget {
                   SizedBox(height: 10),
                   ElevatedButton(
                     child: Text('Read more'),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, ArticleWebView.routeName,
+                        arguments: article.url);
+                    },
                   ),
                 ],
               ),
