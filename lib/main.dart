@@ -2,45 +2,52 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app/article_webview.dart';
-import 'package:news_app/detail_page.dart';
-import 'package:news_app/article.dart';
-import 'package:news_app/styles.dart';
-import 'list_page.dart';
+import 'package:news_app/ui/article_webview.dart';
+import 'package:news_app/ui/article_detail_page.dart';
+import 'package:news_app/ui/home_page.dart';
+import 'package:news_app/data/model/article.dart';
+import 'package:news_app/common/styles.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'News App',
       theme: ThemeData(
-          colorScheme: Theme.of(context).colorScheme.copyWith(
-            primary: primaryColor,
-            onPrimary: Colors.black,
-            secondary: secondaryColor,
-          ),
-          textTheme: myTextTheme,
-          appBarTheme: AppBarTheme(elevation: 0),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              primary: secondaryColor,
-              onPrimary: Colors.white,
-              textStyle: TextStyle(),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(0),
-                ),
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+          primary: primaryColor,
+          onPrimary: Colors.black,
+          secondary: secondaryColor,
+        ),
+        textTheme: myTextTheme,
+        appBarTheme: const AppBarTheme(elevation: 0),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: secondaryColor,
+            foregroundColor: Colors.white,
+            textStyle: const TextStyle(),
+            shape: const  RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(0),
               ),
             ),
           ),
-    ),
-      initialRoute: NewsListPage.routeName,
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          selectedIconTheme: IconThemeData(color: secondaryColor),
+          unselectedIconTheme: const IconThemeData(color: Color.fromRGBO(158, 158, 158, 1)),
+          selectedItemColor: const Color.fromRGBO(158, 158, 158, 1),
+        ),
+      ),
+      initialRoute: HomePage.routeName,
       routes: {
-        NewsListPage.routeName: (context) => NewsListPage(),
+        HomePage.routeName: (context) => const HomePage(),
         ArticleDetailPage.routeName: (context) =>
             ArticleDetailPage(article: ModalRoute.of(context).settings.arguments),
         ArticleWebView.routeName: (context) => ArticleWebView(
