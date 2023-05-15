@@ -6,7 +6,7 @@ class ApiService {
   static const String _baseUrl = 'https://newsapi.org/v2/';
   static const String _apiKey = '250597d8d6ae44c38e0922dadc53d526';
   static const String _category = 'business';
-  static const String _country = 'id';
+  static const String _country = 'us';
 
   Future<ArticlesResult> topHeadlines() async {
     final response = await http.get(Uri.parse("${_baseUrl}top-headlines?country=$_country&category=$_category&apiKey=$_apiKey"));
