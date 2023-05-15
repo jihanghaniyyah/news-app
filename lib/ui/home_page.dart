@@ -1,8 +1,14 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:news_app/widgets/platform_widget.dart';
+import 'dart:io';
+
+import 'package:news_app/common/styles.dart';
+import 'package:news_app/data/api/api_service.dart';
+import 'package:news_app/provider/news_provider.dart';
 import 'package:news_app/ui/article_list_page.dart';
 import 'package:news_app/ui/settings.dart';
+import 'package:news_app/widgets/platform_widget.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home_page';
@@ -10,39 +16,46 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int bottomNavIndex = 0;
+  int _bottomNavIndex = 0;
+  static const String _headlineText = 'Headline';
 
-  List<BottomNavigationBarItem> _bottomNavBarItems = [
+  final List<Widget> _listWidget = [
+    ChangeNotifierProvider<NewsProvider>(
+      create: (_) => NewsProvider(apiService: ApiService()),
+      child: const ArticleListPage(),
+    ),
+    const SettingsPage(),
+  ];
+
+  final List<BottomNavigationBarItem> _bottomNavBarItems = [
     BottomNavigationBarItem(
-      icon: Icon(Icons.public),
-      label: 'Headline',
+      icon: Icon(Platform.isIOS ? CupertinoIcons.news : Icons.public),
+      label: _headlineText,
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.settings),
-      label: 'Settings',
+      icon: Icon(Platform.isIOS ? CupertinoIcons.settings : Icons.settings),
+      label: SettingsPage.settingsTitle,
     ),
   ];
 
-  List<Widget> _listWidget = [
-    ArticleListPage(),
-    SettingsPage(),
-  ];
+  void _onBottomNavTapped(int index) {
+    setState(() {
+      _bottomNavIndex = index;
+    });
+  }
 
   Widget _buildAndroid(BuildContext context) {
     return Scaffold(
-      body: _listWidget[bottomNavIndex],
+      body: _listWidget[_bottomNavIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: bottomNavIndex,
+        selectedItemColor: secondaryColor,
+        currentIndex: _bottomNavIndex,
         items: _bottomNavBarItems,
-        onTap: (selected) {
-          setState(() {
-            bottomNavIndex = selected;
-          });
-        },
+        onTap: _onBottomNavTapped,
       ),
     );
   }
@@ -51,9 +64,10 @@ class _HomePageState extends State<HomePage> {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
         items: _bottomNavBarItems,
+        activeColor: secondaryColor,
       ),
       tabBuilder: (context, index) {
-        return _listWidget[bottomNavIndex];
+        return _listWidget[index];
       },
     );
   }
